@@ -12,8 +12,14 @@ RUN cd ~/catkin_ws/src \
 RUN cd ~/catkin_ws \
     && /bin/bash -c '. /opt/ros/melodic/setup.bash; cd ~/catkin_ws; catkin_make' \
     && /bin/bash -c "source ~/catkin_ws/devel/setup.bash"
-
+#
+RUN apt-get update \
+    && apt-get install ros-melodic-turtlesim -y
+#
+RUN apt-get install -y ros-melodic-rosbridge-server \
+    && apt-get install -y ros-melodic-tf2-web-republisher
+#
 COPY /launchInDocker.sh /
-RUN chmod 777 /launchInDocker.sh
-
+RUN chmod +x /launchInDocker.sh
+#
 ENTRYPOINT ["/launchInDocker.sh"]
