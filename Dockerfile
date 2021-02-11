@@ -22,4 +22,4 @@ RUN apt-get install -y ros-melodic-rosbridge-server \
 COPY /launchInDocker.sh /
 RUN chmod +x /launchInDocker.sh
 #
-ENTRYPOINT ["/launchInDocker.sh"]
+ENTRYPOINT ["/container_entrypoint.sh"]
