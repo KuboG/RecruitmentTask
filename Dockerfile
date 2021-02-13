@@ -20,16 +20,20 @@ RUN cd /home/catkin_ws \
     && /bin/bash -c "source /home/catkin_ws/devel/setup.bash"
 #
 RUN cd /home/catkin_ws/src \
-    && catkin_create_pkg turtle_sim_move geometry_msgs rospy \
+    && catkin_create_pkg turtle_line_cleaner geometry_msgs std_msgs std_srvs rospy \
     && cd /home/catkin_ws \
-    && /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
-    #&& cd ~/catkin_ws/src/turtle_sim_move \
-    #&& mkdir src \
-    #&& cd ~/catkin_ws \
-    #&& /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
+    && /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make' \
+    && mkdir -p /home/catkin_ws/src/turtle_line_cleaner/scripts
 #
-COPY /moveWithTurtle.py /home/catkin_ws/src/turtle_sim_move/src
-RUN chmod +x /home/catkin_ws/src/turtle_sim_move/src/moveWithTurtle.py
+COPY /clearService.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
+RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
+#
+RUN echo "catkin_install_python(PROGRAMS scripts/clearService.py\n\
+  DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
+)" >> /home/catkin_ws/src/turtle_line_cleaner/CMakeLists.txt
+#
+RUN cd /home/catkin_ws \
+    && /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make'
 #
 COPY /container_entrypoint.sh /
 RUN chmod +x /container_entrypoint.sh
