@@ -4,53 +4,82 @@ import docker
 import time
 from roslibpy import Topic, Message, Ros
 
-docClient = docker.DockerClient()
-container = docClient.containers.get("ferko")
-ip_add = container.attrs['NetworkSettings']['IPAddress']
-print(ip_add)
-print("wainting for container")
+from pynput.keyboard import Key, Listener
+import os
 
+class keyListener:
+    count = None
+    presedFlag = None
 
-def move():
-    client = roslibpy.Ros(host=ip_add, port=9090)
-    #client.run()
-    velocity_publisher = roslibpy.Topic(client, '/turtle1/cmd_vel', 'geometry_msgs/Twist', queue_size=10)
+    def __init__(self):
+        self.count = 0
+        self.presedFlag = 0
 
-    def pub():
-        velocity_publisher.publish(Message({ 'linear': { 'x': 2.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 1.0}  }))
-        time.sleep(1)
- 
-    client.on_ready(lambda: print('Is ROS connected?', client.is_connected))
-    #client.get_message_details('geometry_msgs/Twist', print)
-    #client.get_topics(print)
-    client.on_ready(pub, run_in_thread=True)
+        self.docClient = docker.DockerClient()
+        self.container = self.docClient.containers.get("ferko")
+        self.ip_add = self.container.attrs['NetworkSettings']['IPAddress']
+        print(self.ip_add)
+        print("wainting for container")
 
-    velocity_publisher.unadvertise()
-    #client.terminate()
-    client.run_forever()
+        self.client = roslibpy.Ros(host=self.ip_add, port=9090)
+        self.velocity_publisher = roslibpy.Topic(self.client, '/turtle1/cmd_vel', 'geometry_msgs/Twist', queue_size=10)
+        self.client.run()
+        self.client.on_ready(lambda: print('Is ROS connected?', self.client.is_connected))
 
-move()
+        with Listener(
+                on_press=self.on_press,
+                on_release=self.on_release) as self.listener:
+            self.listener.join()
+           
 
-'''
+    def moveXpositive(self):
+        print("publishing")
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': 1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
+        self.client.run()
+        #time.sleep(1)
 
-client = roslibpy.Ros(host=ip_add, port=9090)
-client.run()
+    def moveXnegative(self):
+        print("publishing")
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': -1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
+        self.client.run()
+        #time.sleep(1)
+    
+    def rotateZclockwise(self):
+        print("publishing")
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': -2.0}  }))
+        self.client.run()
+        #time.sleep(1)
+    
+    def rotateZcounterclockwise(self):
+        print("publishing")
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 2.0}  }))
+        self.client.run()
 
-#velocity_publisher = roslibpy.Topic(client, '/turtle1/cmd_vel', 'geometry_msgs/Twist', queue_size=10)
-listener = roslibpy.Topic(client, '/turtle1/pose', 'turtlesim/Pose')
+    def on_press(self, key):
+        #clear = lambda: os.system('clear')
+        #clear()
+        if key == Key.up: # and self.presedFlag == 0:
+            self.presedFlag = 1
+            self.client.on_ready(self.moveXpositive, run_in_thread=True)
 
-#while client.is_connected:
-#    velocity_publisher.publish(Message({'linear': [1.0, 0.0, 0.0], 'anglular': [1.0, 0.0, 0.0] }))
-#    time.sleep(1)
+        if key == Key.down: # and self.presedFlag == 0:
+            self.presedFlag = 1
+            self.client.on_ready(self.moveXnegative, run_in_thread=True)
 
-#listener.subscribe(lambda message: print('toto:' + message['data'])) 
-listener.subscribe(lambda message: print()) 
-try:
-    while True:
-        pass
-except KeyboardInterrupt:
-    client.terminate()    
-#client.get_message_details('geometry_msgs/Twist', print)
-#velocity_publisher.unadvertise()
-#client.terminate() 
-'''
+        if key == Key.right: # and self.presedFlag == 0:
+            self.presedFlag = 1
+            self.client.on_ready(self.rotateZclockwise, run_in_thread=True)
+
+        if key == Key.left: # and self.presedFlag == 0:
+            self.presedFlag = 1
+            self.client.on_ready(self.rotateZcounterclockwise, run_in_thread=True)
+
+    def on_release(self, key):
+        self.presedFlag = 0
+        if key == Key.esc:
+            # stop listening and close rosbidge connection
+            print(self.count)
+            self.client.terminate()
+            return False
+
+keyListener()
