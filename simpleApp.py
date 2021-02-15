@@ -16,6 +16,7 @@ class KeyListener:
     count = None
     presedFlag = None
 
+    # constructor
     def __init__(self):
         self.count = 0
         self.presedFlag = 0
@@ -47,31 +48,36 @@ class KeyListener:
             self.listener.join()     
 
     # moving with turtle in X axis in positive direction
+    # sefl - object in class
     def moveXpositive(self):
-        #if self.presedFlag == 0:
         print("moving in X axis positive direction")
         self.velocity_publisher.publish(Message({ 'linear': { 'x': 1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
         self.client.run()
     
     # moving with turtle in X axis in negative direction
+    # sefl - object in class
     def moveXnegative(self):
         print("moving in X axis negative direction")
         self.velocity_publisher.publish(Message({ 'linear': { 'x': -1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
         self.client.run()
     
     # rotate with turtle in Z axis in clockwise direction
+    # sefl - object in class
     def rotateZclockwise(self):
         print("rotate in Z axis clockwise direction")
         self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': -2.0}  }))
         self.client.run()
 
-    # rotate with turtle in Z axis in counterclockwise direction    
+    # rotate with turtle in Z axis in counterclockwise direction
+    # # sefl - object in class    
     def rotateZcounterclockwise(self):
         print("rotate in Z axis counterclockwise direction")
         self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 2.0}  }))
         self.client.run()
 
     # determine which key is pressed
+    # sefl - object in class
+    # key - store pressed kye
     def on_press(self, key):
         # clear console
         clear = lambda: os.system('clear')
@@ -96,6 +102,9 @@ class KeyListener:
             # call rotateZcounterclockwise in a thread
             self.client.on_ready(self.rotateZcounterclockwise, run_in_thread=True)
 
+    # determine which key is released
+    # sefl - object in class
+    # key - store pressed kye
     def on_release(self, key):
         self.presedFlag = 0
         if key == Key.esc:

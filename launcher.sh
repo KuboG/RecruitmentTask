@@ -11,3 +11,9 @@ echo "Waiting for the container to launch properly"
 sleep 20
 # python application with roslibpy
 python simpleApp.py
+# kill container
+docker kill turtle_app_container
+# remove container
+docker rm turtle_app_container
+# clear console
+clear

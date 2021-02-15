@@ -36,7 +36,7 @@ RUN cd /home/catkin_ws/src \
 COPY /clearService.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
 RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
 #
-# appending these lines to CMakeList.txt to instal and use it properly
+# appending these lines to CMakeList.txt to instal and use scripts properly
 RUN echo "catkin_install_python(PROGRAMS scripts/clearService.py\n\
   DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
 )" >> /home/catkin_ws/src/turtle_line_cleaner/CMakeLists.txt
