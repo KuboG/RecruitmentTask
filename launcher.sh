@@ -1,3 +1,7 @@
+# add user to docker group 
+sudo usermod -aG docker ${USER}
+# apply a new membership
+su - ${USER}
 # building image
 docker build -t turtle-app .
 # give permissions to X server host
