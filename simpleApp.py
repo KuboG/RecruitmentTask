@@ -13,14 +13,11 @@ import os
 # listening on press arrows key 
 # listnening on release esc key
 class KeyListener:
-    presedFlag = None
     moveX = None
     rotateZ = None
 
     # constructor
     def __init__(self):        
-        self.presedFlag = 0
-
         self.moveX = 0.0
         self.rotateZ = 0.0
 
@@ -90,7 +87,6 @@ class KeyListener:
     # sefl - object in class
     # key - store pressed kye
     def on_release(self, key):
-        #self.presedFlag = 0
         if key == Key.esc:
             # stop listening and close rosbidge connection
             self.client.terminate()

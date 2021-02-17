@@ -1,17 +1,17 @@
 From ros:melodic
 #
 # update packages and install vim and mc
+# install ros-melodic-turtlesim
+# instal rosbridge server and tf2 web republisher -> necessary for roslibpy
+# clean up apt cache with last command - reduce image size
 RUN apt-get update && apt-get install -y \
     vim \
-    mc
-#
-# update packages and install turtlesim 
-RUN apt-get install ros-melodic-turtlesim -y
-#
-# instal rosbridge server and tf2 web republisher -> necessary for roslibpy
-RUN apt-get install -y ros-melodic-rosbridge-server \
-    && apt-get install -y ros-melodic-tf2-web-republisher
-#
+    mc \
+    ros-melodic-turtlesim \
+    ros-melodic-rosbridge-server \
+    ros-melodic-tf2-web-republisher \
+    && rm -rf /var/lib/apt/lists/* 
+
 # sourcing entrypoint to use ros commands and making directory for workspace
 RUN /bin/bash -c "source /ros_entrypoint.sh" \
     && mkdir -p /home/catkin_ws/src \ 

@@ -1,15 +1,11 @@
-# add user to docker group 
-sudo sh -c "usermod -aG docker ${USER}"
-# apply a new membership
-#su -c "- ${USER}"
 # building image
-docker build -t turtle-app .
+sudo docker build -t turtle-app .
 # give permissions to X server host
 xhost local:root
 # run image turttle-app in docker with name 'turtle_app_container'
 # eviroment variable: "DISPLAY", "QT_X11_NO_MITSHM=1"
 # shared volume: "/tmp/.X11-unix:/tmp/.X11-unix:rw"
-docker run -id --name turtle_app_container --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" turtle-app
+sudo docker run -id --name turtle_app_container --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" turtle-app
 echo "Waiting for the container to launch properly"
 # wait for all process to run in cointainer (roscore, turtle_sim node, rosbridge_server, tf2_web_republisher and turtle_line_cleaner)
 sleep 20
