@@ -13,13 +13,16 @@ import os
 # listening on press arrows key 
 # listnening on release esc key
 class KeyListener:
-    count = None
     presedFlag = None
+    moveX = None
+    rotateZ = None
 
     # constructor
-    def __init__(self):
-        self.count = 0
+    def __init__(self):        
         self.presedFlag = 0
+
+        self.moveX = 0.0
+        self.rotateZ = 0.0
 
         # get ip addres of container 'turtle_app_container'
         self.docClient = docker.DockerClient()
@@ -45,34 +48,11 @@ class KeyListener:
         with Listener(
                 on_press=self.on_press,
                 on_release=self.on_release) as self.listener:
-            self.listener.join()     
+            self.listener.join()  
 
-    # moving with turtle in X axis in positive direction
-    # sefl - object in class
-    def moveXpositive(self):
-        print("moving in X axis positive direction")
-        self.velocity_publisher.publish(Message({ 'linear': { 'x': 1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
-        self.client.run()
-    
-    # moving with turtle in X axis in negative direction
-    # sefl - object in class
-    def moveXnegative(self):
-        print("moving in X axis negative direction")
-        self.velocity_publisher.publish(Message({ 'linear': { 'x': -1.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 0.0}  }))
-        self.client.run()
-    
-    # rotate with turtle in Z axis in clockwise direction
-    # sefl - object in class
-    def rotateZclockwise(self):
-        print("rotate in Z axis clockwise direction")
-        self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': -2.0}  }))
-        self.client.run()
-
-    # rotate with turtle in Z axis in counterclockwise direction
-    # # sefl - object in class    
-    def rotateZcounterclockwise(self):
-        print("rotate in Z axis counterclockwise direction")
-        self.velocity_publisher.publish(Message({ 'linear': { 'x': 0.0, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': 2.0}  }))
+    # publishing on topic
+    def publishingMovement(self):
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': self.moveX, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': self.rotateZ}  }))
         self.client.run()
 
     # determine which key is pressed
@@ -83,30 +63,34 @@ class KeyListener:
         clear = lambda: os.system('clear')
         clear()
         if key == Key.up:
-            self.presedFlag = 1
-            # call moveXpositive in a thread
-            self.client.on_ready(self.moveXpositive, run_in_thread=True)
-
-        if key == Key.down:
-            self.presedFlag = 1
-            # call moveXnegative in a thread
-            self.client.on_ready(self.moveXnegative, run_in_thread=True)
-
-        if key == Key.right:
-            self.presedFlag = 1
-            # call rotateZclockwise in a thread
-            self.client.on_ready(self.rotateZclockwise, run_in_thread=True)
-
-        if key == Key.left:
-            self.presedFlag = 1
-            # call rotateZcounterclockwise in a thread
-            self.client.on_ready(self.rotateZcounterclockwise, run_in_thread=True)
+            self.moveX = 1.0
+            self.rotateZ = 0.0
+            print("moving in X axis positive direction")    
+        elif key == Key.down:
+            self.moveX = -1.0
+            self.rotateZ = 0.0
+            print("moving in X axis negative direction")
+        elif key == Key.right:
+            self.moveX = 0.0
+            self.rotateZ = -2.0
+            print("rotate in Z axis clockwise direction")
+        elif key == Key.left:
+            self.moveX = 0.0
+            self.rotateZ = 2.0
+            print("rotate in Z axis counterclockwise direction")
+        elif key == Key.esc:
+            print("closing")
+        else:
+            self.moveX = 0.0
+            self.rotateZ = 0.0
+            print("wrong key")
+        self.client.on_ready(self.publishingMovement, run_in_thread=True)
 
     # determine which key is released
     # sefl - object in class
     # key - store pressed kye
     def on_release(self, key):
-        self.presedFlag = 0
+        #self.presedFlag = 0
         if key == Key.esc:
             # stop listening and close rosbidge connection
             self.client.terminate()
