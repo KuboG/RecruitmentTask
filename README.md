@@ -10,6 +10,7 @@ The main goal of this application is to demonstrate knowledge of new technologie
 * publishing to docker container via `rosbridge_websocket` and `tf2_web_republisher`
 * cleaning trajectory line behind the turtle with clear service
 
+![alt text](https://github.com/KuboG/RecruitmentTask/blob/develop_JG/Documentation/schematicpng.png?raw=true)
 
 # Technologies
 Project is created with:
@@ -51,7 +52,7 @@ bash launcher.sh
 ```
 So when you want to run the whole application after some modifications you can use that command.
 
-The necessary processes inside the container such as `roscore`, `turtlesim`, `rosbridge_server`, `tf2_web_republisher`, and `clear_service are` run in the [container_entrypoint.sh](https://github.com/KuboG/RecruitmentTask/blob/master/container_entrypoint.sh).
+The necessary processes inside the container such as `roscore`, `turtlesim`, `rosbridge_server`, `tf2_web_republisher`, and `clear_service` run in the [container_entrypoint.sh](https://github.com/KuboG/RecruitmentTask/blob/master/container_entrypoint.sh).
 
 #### Documentation
 You can use more technical details including commands in [dockerfile](https://github.com/KuboG/RecruitmentTask/blob/master/Dockerfile) or methods in [python application](https://github.com/KuboG/RecruitmentTask/blob/master/simple_app.py) in [technical documentation](https://github.com/KuboG/RecruitmentTask/blob/master/Documentation/technicalDocumentation.pdf). 
