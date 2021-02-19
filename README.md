@@ -55,7 +55,7 @@ So when you want to run the whole application after some modifications you can u
 The necessary processes inside the container such as `roscore`, `turtlesim`, `rosbridge_server`, `tf2_web_republisher`, and `clear_service` run in the [container_entrypoint.sh](https://github.com/KuboG/RecruitmentTask/blob/master/container_entrypoint.sh).
 
 #### Documentation
-You can use more technical details including commands in [dockerfile](https://github.com/KuboG/RecruitmentTask/blob/master/Dockerfile) or methods in [python application](https://github.com/KuboG/RecruitmentTask/blob/master/simple_app.py) in [technical documentation](https://github.com/KuboG/RecruitmentTask/blob/master/Documentation/technicalDocumentation.pdf). 
+You can find more technical details including commands in [dockerfile](https://github.com/KuboG/RecruitmentTask/blob/master/Dockerfile) or methods in [python application](https://github.com/KuboG/RecruitmentTask/blob/master/simple_app.py) in [technical documentation](https://github.com/KuboG/RecruitmentTask/blob/master/Documentation/technicalDocumentation.pdf). 
 
 # User manual
 Please follow the steps in the [Installation](https://github.com/KuboG/RecruitmentTask/tree/develop_JG#installation) chapter. There are also some commands which have to be run to ensure the usage of the application. These are also mentioned in this section.
