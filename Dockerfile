@@ -36,6 +36,10 @@ RUN cd /home/catkin_ws/src \
 COPY /clearService.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
 RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
 #
+# copy scripts wait-for-it.sh and make it executable
+COPY /wait-for-it.sh /home
+RUN chmod +x /home/wait-for-it.sh
+#
 # appending these lines to CMakeList.txt to instal and use scripts properly
 RUN echo "catkin_install_python(PROGRAMS scripts/clearService.py\n\
   DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
