@@ -9,8 +9,8 @@ sudo docker run -id --name turtle_app_container --env="DISPLAY" --env="QT_X11_NO
 echo "Waiting for the container to launch properly"
 # wait for all process to run in cointainer (roscore, turtle_sim node, rosbridge_server, tf2_web_republisher and turtle_line_cleaner)
 # python application with roslibpy
-sleep 10
-python simpleApp.py
+sleep 15
+python simple_app.py
 # kill container
 docker kill turtle_app_container
 # remove container

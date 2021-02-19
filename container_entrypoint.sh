@@ -12,5 +12,5 @@ roscore &
 # start tf2_web_republisher
 ./home/wait-for-it.sh localhost:11311 -- rosrun tf2_web_republisher tf2_web_republisher &
 # start turtle_line_cleaner node
-./home/wait-for-it.sh localhost:11311 -- rosrun turtle_line_cleaner clearService.py &
+./home/wait-for-it.sh localhost:11311 -- rosrun turtle_line_cleaner clear_service.py &
 /bin/bash

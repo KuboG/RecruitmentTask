@@ -32,16 +32,16 @@ RUN cd /home/catkin_ws/src \
     && /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make' \
     && mkdir -p /home/catkin_ws/src/turtle_line_cleaner/scripts
 #
-# copy python script clearService.py to container and make it executable
-COPY /clearService.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
-RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
+# copy python script clear_service.py to container and make it executable
+COPY /clear_service.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clear_service.py
+RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clear_service.py
 #
 # copy scripts wait-for-it.sh and make it executable
 COPY /wait-for-it.sh /home
 RUN chmod +x /home/wait-for-it.sh
 #
 # appending these lines to CMakeList.txt to instal and use scripts properly
-RUN echo "catkin_install_python(PROGRAMS scripts/clearService.py\n\
+RUN echo "catkin_install_python(PROGRAMS scripts/clear_service.py\n\
   DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
 )" >> /home/catkin_ws/src/turtle_line_cleaner/CMakeLists.txt
 #

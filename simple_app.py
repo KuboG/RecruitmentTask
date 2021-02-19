@@ -92,5 +92,11 @@ class KeyListener:
             self.client.terminate()
             return False
 
-# call keyListener class
-KeyListener()
+# main function
+def main():
+    # call keyListener class
+    KeyListener()
+
+# call main function
+if __name__ == "__main__":
+    main()

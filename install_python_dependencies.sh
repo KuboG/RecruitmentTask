@@ -1,0 +1,1 @@
+python -m pip install -r python_required_dependencies.txt
