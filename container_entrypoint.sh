@@ -5,16 +5,12 @@ source /ros_entrypoint.sh
 source /home/catkin_ws/devel/setup.bash
 # start roscore
 roscore &
-sleep 5
-# start turtlesim node
-rosrun turtlesim turtlesim_node &
-sleep 5
+#start turtlesim node
+./home/wait-for-it.sh localhost:11311 -- rosrun turtlesim turtlesim_node &
 # start rosbridge_server
-roslaunch rosbridge_server rosbridge_websocket.launch &
-sleep 5
+./home/wait-for-it.sh localhost:11311 -- roslaunch rosbridge_server rosbridge_websocket.launch &
 # start tf2_web_republisher
-rosrun tf2_web_republisher tf2_web_republisher &
-sleep 3
+./home/wait-for-it.sh localhost:11311 -- rosrun tf2_web_republisher tf2_web_republisher &
 # start turtle_line_cleaner node
-rosrun turtle_line_cleaner clearService.py
+./home/wait-for-it.sh localhost:11311 -- rosrun turtle_line_cleaner clear_service.py &
 /bin/bash

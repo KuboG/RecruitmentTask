@@ -1,17 +1,17 @@
 From ros:melodic
 #
 # update packages and install vim and mc
+# install ros-melodic-turtlesim
+# instal rosbridge server and tf2 web republisher -> necessary for roslibpy
+# clean up apt cache with last command - reduce image size
 RUN apt-get update && apt-get install -y \
     vim \
-    mc
-#
-# update packages and install turtlesim 
-RUN apt-get install ros-melodic-turtlesim -y
-#
-# instal rosbridge server and tf2 web republisher -> necessary for roslibpy
-RUN apt-get install -y ros-melodic-rosbridge-server \
-    && apt-get install -y ros-melodic-tf2-web-republisher
-#
+    mc \
+    ros-melodic-turtlesim \
+    ros-melodic-rosbridge-server \
+    ros-melodic-tf2-web-republisher \
+    && rm -rf /var/lib/apt/lists/* 
+
 # sourcing entrypoint to use ros commands and making directory for workspace
 RUN /bin/bash -c "source /ros_entrypoint.sh" \
     && mkdir -p /home/catkin_ws/src \ 
@@ -32,12 +32,16 @@ RUN cd /home/catkin_ws/src \
     && /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make' \
     && mkdir -p /home/catkin_ws/src/turtle_line_cleaner/scripts
 #
-# copy python script clearService.py to container and make it executable
-COPY /clearService.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
-RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clearService.py
+# copy python script clear_service.py to container and make it executable
+COPY /clear_service.py /home/catkin_ws/src/turtle_line_cleaner/scripts/clear_service.py
+RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clear_service.py
+#
+# copy scripts wait-for-it.sh and make it executable
+COPY /wait-for-it.sh /home
+RUN chmod +x /home/wait-for-it.sh
 #
 # appending these lines to CMakeList.txt to instal and use scripts properly
-RUN echo "catkin_install_python(PROGRAMS scripts/clearService.py\n\
+RUN echo "catkin_install_python(PROGRAMS scripts/clear_service.py\n\
   DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
 )" >> /home/catkin_ws/src/turtle_line_cleaner/CMakeLists.txt
 #
