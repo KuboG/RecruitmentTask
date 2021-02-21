@@ -13,17 +13,17 @@ import os
 # listening on press arrows key 
 # listnening on release esc key
 class KeyListener:
-    moveX = None
-    rotateZ = None
+    move_x = None
+    rotate_z = None
 
     # constructor
     def __init__(self):        
-        self.moveX = 0.0
-        self.rotateZ = 0.0
+        self.move_x = 0.0
+        self.rotate_z = 0.0
 
         # get ip addres of container 'turtle_app_container'
-        self.docClient = docker.DockerClient()
-        self.container = self.docClient.containers.get("turtle_app_container")
+        self.doc_client = docker.DockerClient()
+        self.container = self.doc_client.containers.get("turtle_app_container")
         self.ip_add = self.container.attrs['NetworkSettings']['IPAddress']
 
         # connesct to container via ip address
@@ -48,8 +48,8 @@ class KeyListener:
             self.listener.join()  
 
     # publishing on topic
-    def publishingMovement(self):
-        self.velocity_publisher.publish(Message({ 'linear': { 'x': self.moveX, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': self.rotateZ}  }))
+    def publishing_movement(self):
+        self.velocity_publisher.publish(Message({ 'linear': { 'x': self.move_x, 'y': 0.0, 'z': 0.0}, 'angular': {'x': 0.0, 'y': 0.0, 'z': self.rotate_z}  }))
         self.client.run()
 
     # determine which key is pressed
@@ -60,28 +60,28 @@ class KeyListener:
         clear = lambda: os.system('clear')
         clear()
         if key == Key.up:
-            self.moveX = 1.0
-            self.rotateZ = 0.0
+            self.move_x = 1.0
+            self.rotate_z = 0.0
             print("moving in X axis positive direction")    
         elif key == Key.down:
-            self.moveX = -1.0
-            self.rotateZ = 0.0
+            self.move_x = -1.0
+            self.rotate_z = 0.0
             print("moving in X axis negative direction")
         elif key == Key.right:
-            self.moveX = 0.0
-            self.rotateZ = -2.0
+            self.move_x= 0.0
+            self.rotate_z = -2.0
             print("rotate in Z axis clockwise direction")
         elif key == Key.left:
-            self.moveX = 0.0
-            self.rotateZ = 2.0
+            self.move_x = 0.0
+            self.rotate_z = 2.0
             print("rotate in Z axis counterclockwise direction")
         elif key == Key.esc:
             print("closing")
         else:
-            self.moveX = 0.0
-            self.rotateZ = 0.0
+            self.move_x = 0.0
+            self.rotate_z = 0.0
             print("wrong key")
-        self.client.on_ready(self.publishingMovement, run_in_thread=True)
+        self.client.on_ready(self.publishing_movement, run_in_thread=True)
 
     # determine which key is released
     # sefl - object in class
