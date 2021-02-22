@@ -1,0 +1,9 @@
+<launch>
+
+    <node pkg="turtlesim" type="turtlesim_node" name="turle"/>
+    <node pkg="tf2_web_republisher" type="tf2_web_republisher" name="tf2"/>
+    <node pkg="turtle_line_cleaner" type="clear_service.py" name="clear"/>
+
+    <include file="/opt/ros/melodic/share/rosbridge_server/launch/rosbridge_websocket.launch"/>
+
+</launch>

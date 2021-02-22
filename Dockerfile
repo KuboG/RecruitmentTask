@@ -40,6 +40,10 @@ RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/scripts/clear_service.py
 COPY /wait-for-it.sh /home
 RUN chmod +x /home/wait-for-it.sh
 #
+# copy roslauch file and make in executable
+COPY /ros_app.launch /home/catkin_ws/src/turtle_line_cleaner/ros_app.launch
+RUN chmod +x /home/catkin_ws/src/turtle_line_cleaner/ros_app.launch
+#
 # appending these lines to CMakeList.txt to instal and use scripts properly
 RUN echo "catkin_install_python(PROGRAMS scripts/clear_service.py\n\
   DESTINATION \${CATKIN_PACKAGE_BIN_DESTINATION}\n\
