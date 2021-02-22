@@ -1,0 +1,31 @@
+version: '3.9'
+
+# name of the network
+networks:
+  ros_network:
+    driver: bridge
+    external: true
+
+services:
+
+  ros_app:
+    # defined container name
+    container_name: turtle_app_container
+    # defined image
+    image: turtle-app
+    # defined entrypoint
+    entrypoint: ["/container_entrypoint.sh"]
+    # defined shared volumes - fot turtle GUI
+    volumes:
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+    # environmental variables - for turtle GUI
+    environment:
+      - "DISPLAY=$DISPLAY"
+      - "QT_X11_NO_MITSHM=1"
+    # set up network and ip of container
+    networks:
+      ros_network:
+        ipv4_address: 10.1.10.10
+    restart: always
+
+  

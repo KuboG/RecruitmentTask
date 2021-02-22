@@ -21,13 +21,8 @@ class KeyListener:
         self.move_x = 0.0
         self.rotate_z = 0.0
 
-        # get ip addres of container 'turtle_app_container'
-        self.doc_client = docker.DockerClient()
-        self.container = self.doc_client.containers.get("turtle_app_container")
-        self.ip_add = self.container.attrs['NetworkSettings']['IPAddress']
-
         # connesct to container via ip address
-        self.client = roslibpy.Ros(host=self.ip_add, port=9090)
+        self.client = roslibpy.Ros(host="10.1.10.10", port=9090)
         # create publisher 
         self.velocity_publisher = roslibpy.Topic(self.client, '/turtle1/cmd_vel', 'geometry_msgs/Twist', queue_size=10)
         # connect to the container 
