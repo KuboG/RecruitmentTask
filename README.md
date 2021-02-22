@@ -9,6 +9,7 @@ The main goal of this application is to demonstrate knowledge of new technologie
 * the python application uses [`roslibpy`](https://roslibpy.readthedocs.io/en/latest/index.html) to communicate with ros in a container
 * publishing to docker container via `rosbridge_websocket` and `tf2_web_republisher`
 * cleaning trajectory line behind the turtle with [`clear service`](https://github.com/KuboG/RecruitmentTask/blob/master/clear_service.py)
+* all ros nodes in the container are run from [`ros launch file`](https://github.com/KuboG/RecruitmentTask/blob/master/ros_app.launch)
 
 ![alt text](https://github.com/KuboG/RecruitmentTask/blob/develop_JG/Documentation/schematicpng.png?raw=true)
 
